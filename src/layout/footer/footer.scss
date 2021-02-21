@@ -1,0 +1,17 @@
+@import '../../styles/variables';
+
+footer {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    color: $white;
+}
+
+.copyright {
+   padding: 0.5rem 1rem 0.5rem 0;
+}
+
+@media (max-width: map-get($grid-breakpoints, "sm")) {
+    footer {
+        padding-left: 1rem;
+    }
+}

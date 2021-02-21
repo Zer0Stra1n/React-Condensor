@@ -1,0 +1,11 @@
+@import "~bootstrap/scss/functions";
+
+$aqua: darken( #43d6e7, 10%);
+$gray-196:lighten(#e9ecef, 5%);
+$gray-800: #343a40;
+
+$body-bg: $gray-196;
+$body-color: $gray-800;
+$primary: $aqua;
+
+@import '~bootstrap/scss/variables';
