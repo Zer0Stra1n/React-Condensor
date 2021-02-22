@@ -1,8 +1,11 @@
 import React from 'react';
+import { Movie } from './movie/movie';
+import './gallary.scss';
 
 interface Movie {
     id: string;
     poster: string;
+    title: string;
 }
 
 interface GallaryState {
@@ -52,9 +55,7 @@ export class Gallery extends React.Component<{}, GallaryState> {
                     </div>
                     <ul>
                         {items.map(item => (
-                            <li key={item.id}>
-                                <img src={item.poster}></img>
-                            </li>
+                            <Movie id={item.id} poster={item.poster} title={item.title}/>
                         ))}
                     </ul>
                 </div>
