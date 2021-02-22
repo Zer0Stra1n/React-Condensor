@@ -1,0 +1,11 @@
+@import "../../styles/variables";
+
+.filter-wrapper {
+    padding: 0 2.25rem;
+    display: inline-block;
+    margin-bottom: 1rem;
+
+    label {
+        margin-right: .5rem;
+    }
+}
