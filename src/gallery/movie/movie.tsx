@@ -10,13 +10,9 @@ interface MovieProps {
 
 export const Movie: React.FC<MovieProps> = (props: MovieProps) => {
     return (
-        <>
-            <li key={props.id}>
-                <div className="img-wrapper" onClick={() => props.onClick(props.id)}>
-                    <img className="img-fluid" id={props.id} src={props.poster} alt={'Poster for ' + props.title} />
-                    <div className="overlay">{props.title}</div>
-                </div>
-            </li>
-        </>
+        <div className="img-wrapper" onClick={() => props.onClick(props.id)}>
+            <img className="img-fluid" id={props.id} src={props.poster} alt={'Poster for ' + props.title} />
+            <div className="overlay">{props.title}</div>
+        </div>
     )
 }
