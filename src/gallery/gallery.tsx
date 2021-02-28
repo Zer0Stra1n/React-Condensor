@@ -1,7 +1,8 @@
 import React from 'react';
 import { Movie } from './movie/movie';
-import './gallary.scss';
 import { Filter } from './filter/filter';
+import { Modal } from './modal/modal';
+import './gallery.scss';
 
 interface Movie {
     id: string;
@@ -9,7 +10,7 @@ interface Movie {
     title: string;
 }
 
-interface GallaryState {
+interface GalleryState {
     error: string | null;
     isLoaded: boolean;
     stable: Movie[];
@@ -17,7 +18,7 @@ interface GallaryState {
     selectedId: string | null;
 }
 
-export class Gallery extends React.Component<{}, GallaryState> {
+export class Gallery extends React.Component<{}, GalleryState> {
     constructor(props: {}) {
         super(props);
         this.state = {
@@ -59,13 +60,25 @@ export class Gallery extends React.Component<{}, GallaryState> {
         })
     }
 
+    closeModal() {
+        this.setState({
+            selectedId: null
+        });
+    }
+
     render() {
-        const { error, isLoaded, modified } = this.state
+        const { error, isLoaded, modified, selectedId } = this.state
+        let modal;
+
         if (error) {
             return <div>Error: {error}</div>;
         } else if (!isLoaded) {
             return <div>Loading...</div>;
         } else {
+            if (selectedId) {
+                modal = <Modal movieId={selectedId} onClick={() => this.closeModal()}></Modal>
+            }
+
             return (
                 <div>
                     <Filter onChange={(text: string) => this.handleFilter(text)}/>
@@ -76,8 +89,8 @@ export class Gallery extends React.Component<{}, GallaryState> {
                             </li>
                         ))}
                     </ul>
+                    {modal}
                 </div>
-
             );
         }
     }

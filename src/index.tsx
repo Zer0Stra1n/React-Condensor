@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Footer } from './layout/footer/footer';
 import { Header } from './layout/header/header';
-import { Gallery } from './gallery/gallary';
+import { Gallery } from './gallery/gallery';
 import './styles/main.scss';
 import './index.scss';
 
