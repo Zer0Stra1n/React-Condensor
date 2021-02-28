@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import './modal.scss';
+import './details-modal.scss';
 
 interface MovieDetails {
     title: string;
@@ -13,7 +13,7 @@ interface MovieDetails {
     awards: string;
 }
 
-export const Modal: React.FC<{ movieId: string, onClick: Function }> = (props: { movieId: string, onClick: Function }) => {
+export const DetailsModal: React.FC<{ movieId: string, onClick: Function }> = (props: { movieId: string, onClick: Function }) => {
     const [movie, setMovie] = useState<MovieDetails>();
     const [error, setError] = useState<{message: string} | null>(null);
     const [isLoaded, setIsLoaded] = useState(false);

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Movie } from './movie/movie';
 import { Filter } from './filter/filter';
-import { Modal } from './modal/modal';
+import { DetailsModal } from './details-modal/details-modal';
 import './gallery.scss';
 
 interface Movie {
@@ -76,7 +76,7 @@ export class Gallery extends React.Component<{}, GalleryState> {
             return <div>Loading...</div>;
         } else {
             if (selectedId) {
-                modal = <Modal movieId={selectedId} onClick={() => this.closeModal()}></Modal>
+                modal = <DetailsModal movieId={selectedId} onClick={() => this.closeModal()} />
             }
 
             return (
