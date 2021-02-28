@@ -84,9 +84,7 @@ export class Gallery extends React.Component<{}, GalleryState> {
                     <Filter onChange={(text: string) => this.handleFilter(text)}/>
                     <ul>
                         {modified.map(item => (
-                            <li key={item.id}>
-                                <Movie id={item.id} poster={item.poster} title={item.title} onClick={(id: string) => this.handleSelection(id)}/>
-                            </li>
+                            <Movie id={item.id} poster={item.poster} title={item.title} onClick={(id: string) => this.handleSelection(id)}/>
                         ))}
                     </ul>
                     {modal}
