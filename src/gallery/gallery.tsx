@@ -32,18 +32,21 @@ export const Gallery: React.FC<{}> = () => {
         setSelectedId(null);
     }
 
+    async function fetchMovieList(){
+        try{
+            const response = await fetch('https://gtrtoph0d7.execute-api.us-east-1.amazonaws.com/dev/media');
+            const data = await response.json();
+            setStable(data);
+            setModified(data);
+            setIsLoaded(true);
+        } catch (error) {
+            setError(error);
+            setIsLoaded(true);
+        }
+    }
+
     useEffect(() => {
-        fetch('https://gtrtoph0d7.execute-api.us-east-1.amazonaws.com/dev/media')
-            .then(res => res.json())
-            .then((result: Movie[]) => {
-                setIsLoaded(true);
-                setStable(result);
-                setModified(result);
-            }, error => {
-                setIsLoaded(true);
-                setError(error);
-            }
-            )
+        fetchMovieList();
     }, []);
 
     if (error) {

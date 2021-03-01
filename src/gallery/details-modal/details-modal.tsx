@@ -19,16 +19,20 @@ export const DetailsModal: React.FC<{ movieId: string, onClick: Function }> = (p
     const [isLoaded, setIsLoaded] = useState(false);
     const url = `https://gtrtoph0d7.execute-api.us-east-1.amazonaws.com/dev/media/${props.movieId}`;
 
+    async function fetchMovie() {
+        try {
+            const response = await fetch(url);
+            const data = await response.json();
+            setMovie(data);
+            setIsLoaded(true);
+        } catch (error) {
+            setError(error);
+            setIsLoaded(true);
+        }
+    }
+
     useEffect(() => {
-        fetch(url)
-            .then(res => res.json())
-            .then((result: MovieDetails) => {
-                setMovie(result);
-                setIsLoaded(true);
-            }, (error) => {
-                setError(error);
-                setIsLoaded(true);
-            })
+        fetchMovie();
     }, []);
 
     if (error) {
