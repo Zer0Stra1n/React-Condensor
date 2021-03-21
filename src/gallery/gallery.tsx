@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useReducer, useState } from 'react';
 import { Movie } from './movie/movie';
 import { Filter } from './filter/filter';
 import { DetailsModal } from './details-modal/details-modal';
@@ -10,11 +10,51 @@ interface Movie {
     title: string;
 }
 
+type State = {
+    error: { message: string } | null;
+    isLoaded: boolean;
+    stable: Movie[];
+};
+
+type Action =
+    | { type: 'loading' }
+    | { type: 'success', payload: Movie[] }
+    | { type: 'error', payload: { message: string } };
+
 export const Gallery: React.FC<{}> = () => {
-    const [error, setError] = useState<{ message: string } | null>(null);
-    const [isLoaded, setIsLoaded] = useState(false);
+
+    const initialState: State = {
+        error: null,
+        isLoaded: false,
+        stable: []
+    }
+
+    const stateReducer = (state: State, action: Action) => {
+        switch(action.type){
+            case 'loading':
+                return {
+                    ...state,
+                    isLoaded: false
+                }
+            case 'success':
+                return {
+                    ...state,
+                    isLoaded: true,
+                    stable: action.payload
+                }
+            case 'error':
+                return {
+                    ...state,
+                    isLoaded: true,
+                    error: action.payload
+                }
+            default:
+                throw new Error('unknown network state');
+        }
+    }
+
+    const [state, dispatch] = useReducer(stateReducer, initialState);
     const [selectedId, setSelectedId] = useState<string | null>(null);
-    const [stable, setStable] = useState<Movie[]>([]);
     const [modified, setModified] = useState<Movie[]>([]);
     let modal;
 
@@ -23,7 +63,7 @@ export const Gallery: React.FC<{}> = () => {
     }
 
     const handleFilter = (text: string) => {
-        setModified(stable.filter((item: Movie) => {
+        setModified(state.stable.filter((item: Movie) => {
             return item.title.toLowerCase().includes(text.toLowerCase());
         }));
     }
@@ -33,15 +73,14 @@ export const Gallery: React.FC<{}> = () => {
     }
 
     async function fetchMovieList(){
+        dispatch({type: 'loading'});
         try{
             const response = await fetch('https://gtrtoph0d7.execute-api.us-east-1.amazonaws.com/dev/media');
             const data = await response.json();
-            setStable(data);
             setModified(data);
-            setIsLoaded(true);
+            dispatch({type: 'success', payload: data});
         } catch (error) {
-            setError(error);
-            setIsLoaded(true);
+            dispatch({type: 'error', payload: error});
         }
     }
 
@@ -49,9 +88,9 @@ export const Gallery: React.FC<{}> = () => {
         fetchMovieList();
     }, []);
 
-    if (error) {
-        return <div>Error: {error.message}</div>;
-    } else if (!isLoaded) {
+    if (state.error) {
+        return <div>Error: {state.error.message}</div>;
+    } else if (!state.isLoaded) {
         return <div>Loading...</div>;
     } else {
         if (selectedId) {
